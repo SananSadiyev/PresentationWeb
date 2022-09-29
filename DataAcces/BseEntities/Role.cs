@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace DataAcces.BseEntities
 {
-    public class Role
+    public class Role :BaseEntities
     {
-        public int Id { get; set; }
         public string Name { get; set; }
+
         public List<UserRole> UserRole { get; set; }
     }
 }

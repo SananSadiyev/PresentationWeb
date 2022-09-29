@@ -1,0 +1,10 @@
+body{
+    background-color:papayawhip;
+}
+
+.bg-image {
+    background-image: url("/img2/Contact.jfif");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}

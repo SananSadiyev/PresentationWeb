@@ -11,9 +11,12 @@ namespace Services.Abstract
 {
     public interface IUserServices:IBaseServices<UserDTO,User,UserDTO>
     {
-        public UserDTO Login(string user, string pas);
+        public UserDTO Login(UserDTO user);
 
-        public List<UserContactsDTO> GetUserContasts();
+        public List<UserContactsDTO> GetUserContacts();
+
+        public IEnumerable<UserRoleDTO> GetUserRoles();
+        public IEnumerable<UserRoleDTO> GetUserRoles(UserDTO user);
 
     }
 }

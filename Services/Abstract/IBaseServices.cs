@@ -17,6 +17,7 @@ namespace Services.Abstract
     {
         public TRes Get(int id);
         public IEnumerable<TRes> Get();
+        public IEnumerable<TRes> Get(int Page,int PageSize);
 
         public void Delete(int id);
 

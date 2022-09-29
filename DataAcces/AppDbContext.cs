@@ -13,7 +13,9 @@ namespace DataAcces
     {
          public DbSet<User> Users { get; set; }
          public DbSet<Contact> Contacts { get; set; }
-         public DbSet<Role> Roles { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Cart> Carts { get; set; }
+        public DbSet<Role> Roles { get; set; } 
          public DbSet<UserRole> UserRoles { get; set; }
 
         public AppDbContext(DbContextOptions options) : base(options)

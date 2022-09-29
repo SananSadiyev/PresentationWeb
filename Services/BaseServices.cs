@@ -16,63 +16,65 @@ namespace Services
     public class BaseServices<TRes,TEntities,TReq> : BaseServices, IBaseServices<TRes,TEntities,TReq> where TEntities : class
     {
         protected readonly DbSet<TEntities> _dbSet;
-        protected readonly AppDbContext _db;
         protected readonly IMapper _mapper;
-
-
+        protected readonly AppDbContext _db;
         public BaseServices(AppDbContext db, IMapper mapper)
         {
             _db = db;
-            _dbSet = db.Set<TEntities>();
+            _dbSet = _db.Set<TEntities>();
             _mapper = mapper;
         }
 
         public virtual TRes Create(TReq model)
         {
-            var en = _mapper.Map<TReq,TEntities>(model);
-           _dbSet.Add(en);
-            var ne = _mapper.Map<TEntities,TRes>(en);
-            _db.SaveChanges();
-            return ne;
+            var ent = _mapper.Map<TReq, TEntities>(model);
 
+            _dbSet.Add(ent);
+            _db.SaveChanges();
+            var res = _mapper.Map<TEntities, TRes>(ent);
+            return res;
         }
 
         public virtual void Delete(int id)
         {
 
-            var ent =_dbSet.Find(id);
+            var ent = _dbSet.Find(id);
+
             _dbSet.Remove(ent);
             _db.SaveChanges();
+
         }
 
         public virtual TRes Get(int id)
-        {    
-            var i = _dbSet.Find(id);           
-            var ne = _mapper.Map<TEntities, TRes>(i);
-            _db.SaveChanges();
-           
-            return ne;
+        {
+            var ent = _dbSet.Find(id);
+            var res = _mapper.Map<TEntities, TRes>(ent);
+            return res;
         }
 
         public virtual IEnumerable<TRes> Get()
         {
-            var events = _dbSet.ToList();
-            var ne = _mapper.Map < IEnumerable<TEntities>, IEnumerable<TRes> >(events);
-            _db.SaveChanges();
-            return ne;
+            var ents = _dbSet.ToList();
+
+            var res = _mapper.Map<IEnumerable<TEntities>, IEnumerable<TRes>>(ents);
+            return res;
         }
 
+        public virtual IEnumerable<TRes> Get(int Page,int PageSize)
+        {
+            var ents = _dbSet.Skip((Page - 1) * PageSize).Take(PageSize).ToList();
 
-
+            var res = _mapper.Map<IEnumerable<TEntities>, IEnumerable<TRes>>(ents);
+            return res;
+        }
 
         public virtual TRes Update(TReq model)
         {
-           
-            var en = _mapper.Map<TReq, TEntities>(model);
-            _dbSet.Update(en);
-            var ne = _mapper.Map<TEntities, TRes>(en);
+            var ent = _mapper.Map<TReq, TEntities>(model);
+            _dbSet.Update(ent);
             _db.SaveChanges();
-            return ne;
+            var res = _mapper.Map<TEntities, TRes>(ent);
+            return res;
         }
     }
 }
