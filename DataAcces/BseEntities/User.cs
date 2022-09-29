@@ -10,12 +10,14 @@ namespace DataAcces.BseEntities
 {
     public class User : BaseEntities
     {
-
         public string Name { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
-        public List<Contact> Contact { get; set; }
-        public List<Role> Role { get; set; }
+        public string Surname { get; set; }
         
+        public string Username { get; set; }
+        public string Salt { get; set; }
+        public string PasswordHash { get; set; }
+        public Contact Contacts { get; set; }
+        public List<Role> Role { get; set; }
+
     }
 }

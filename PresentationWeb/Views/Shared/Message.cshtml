@@ -1,0 +1,30 @@
+﻿@{
+    Layout = null;
+}
+
+@{
+    ViewBag.Show = "block";
+    if (!string.IsNullOrEmpty(ViewBag.Error))
+    {
+        ViewBag.Class = "alert-danger";
+        ViewBag.Message = ViewBag.Error;
+    }
+    else if (!string.IsNullOrEmpty(ViewBag.Success))
+    {
+        ViewBag.Class = "alert-success";
+        ViewBag.Message = ViewBag.Success;
+
+    }
+    else
+    {
+        ViewBag.Show = "none";
+    }
+}
+<div class="alert @ViewBag.Class alert-dismissible fade show" style="display : @ViewBag.Show">
+
+    <strong>@ViewBag.Message</strong>
+
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+
+
+</div>
