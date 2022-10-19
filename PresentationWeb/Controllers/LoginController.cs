@@ -33,6 +33,7 @@ namespace PresentationWeb.Controllers
         {
             try
             {
+
                 var res = _userServices.Login(user);
                 //  var roles = _userServices.GetUserRoles();
                 Authenticate(res, null);
@@ -103,7 +104,6 @@ namespace PresentationWeb.Controllers
 
             try
             {
-
             var x = Convert.ToInt32(HttpContext.User?.FindFirst(x => x.Type == "Id")?.Value);
 
             var res = _userServices.Create(user);

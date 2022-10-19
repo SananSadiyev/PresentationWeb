@@ -11,7 +11,6 @@ namespace Services.Abstract
 {
     public interface IProductServices:IBaseServices<ProductDTO,Product,ProductDTO>
     {
-
-
+     //   public IEnumerable<ProductDTO> GetFilter(int page = 1, int pageSize = 16, SortOrder order = SortOrder.NameAsc, string search = null);
     }
 }

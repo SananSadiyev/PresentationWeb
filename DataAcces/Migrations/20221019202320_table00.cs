@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace DataAcces.Migrations
 {
-    public partial class Web1 : Migration
+    public partial class table00 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -46,6 +46,35 @@ namespace DataAcces.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Carts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Count = table.Column<int>(type: "integer", nullable: false),
+                    ProductId = table.Column<int>(type: "integer", nullable: false),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UploudDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Carts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Carts_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Carts_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -122,6 +151,16 @@ namespace DataAcces.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Carts_ProductId",
+                table: "Carts",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Carts_UserId",
+                table: "Carts",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Contacts_UserId",
                 table: "Contacts",
                 column: "UserId",
@@ -146,13 +185,16 @@ namespace DataAcces.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Carts");
+
+            migrationBuilder.DropTable(
                 name: "Contacts");
 
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "UserRoles");
 
             migrationBuilder.DropTable(
-                name: "UserRoles");
+                name: "Products");
 
             migrationBuilder.DropTable(
                 name: "Roles");

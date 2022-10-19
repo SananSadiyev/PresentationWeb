@@ -5,10 +5,9 @@
            <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
     }   
 
-
-    <body class="body-color">
-        <div class="row justify-content-md-center">
-           <div class="col col-md-auto">
+   <body class="body-color">
+        <div class="row justify-content-md-center ">
+           <div class="col col-md-auto ">
                 <ul class="list-group list-group-horizontal ">
                     <li class="list-group-item list-group-item-secondary mx-auto hover-hover"><a asp-action="Products" asp-route-sortOrder="@ViewBag.NameSort">Name</a></li>
                     <li class="list-group-item list-group-item-secondary hover-hover"><a asp-action="Products" asp-route-sortOrder="@ViewBag.PriceSort">Price</a></li>
@@ -18,12 +17,11 @@
 
 
 
-            <div class="row justify-content-md-center float-sm-end">
+            <div class="row justify-content-md-center float-sm-end ">
         <form method="get">
-            <div class="form-inline form-group">
-                <label class="control-label">SearchBox: </label>
+            <div class="form-inline form-group ">
+                <label class="control-label">Search: </label>
                 <input name="SearchName" class="form-control width-300"  />
-
                 <input type="submit" value="Filter" class="btn btn-info"  />
             </div>
         </form>
@@ -53,7 +51,7 @@
                                                     <i class="bi bi-eye" title="About"></i></a>
 
                                                     <a class="btn-action" data-bs-toggle="tooltip" data-bs-html="true";
-                                                        title="Add to Cart"><i class="bi bi-cart-plus"></i></a>
+                                                        title="Add to Cart" asp-controller="Product" asp-action="GetProduct" asp-route-id=@item.Id><i class="bi bi-cart-plus"></i></a>
                                                     <a class="btn-action" data-bs-toggle="tooltip" data-bs-html="true"
                                                         title="Share"><i class="bi bi-share"></i></a>
                                                 </div>
@@ -65,7 +63,7 @@
                             <h4 class="card-title">@item.Name</h4>
                             <p class="card-text">Marvel movie</p>
                             <p class="card-text">Price : $@item.Price</p>
-                            <a href="#" class="btn btn-primary ">Add to Cart</a>
+                            <a  class="btn btn-primary" asp-controller="Product" asp-action="GetProduct" asp-route-id=@item.Id>Add to Cart</a>
                         </div>
                         </div>
                     </a>
@@ -73,22 +71,22 @@
     }
 
                     <ul class="pagination">
-                    @if(ViewBag.HasPrevious)
-            {
-                        <li class="page-item"><a class="page-link"  asp-action="Products" asp-route-page="@(Model.Page-1)">Previous</a></li>
-            }
-            else
-            {
-                        <li class="page-item disabled"><a class="page-link">Previous</a></li>
-            }
-                    @if (ViewBag.HasNext)
-            {
-                        <li class="page-item"><a class="page-link" asp-action="Products" asp-route-page="@(Model.Page+1)">Next</a></li>
-            }
-            else
-            {
-                        <li class="page-item disabled"><a class="page-link">Next</a></li>                
-            }
+                   @if (ViewBag.HasPrevious)
+        {
+            <li class="page-item"><a class="page-link" asp-action="Products" asp-route-page="@(Model.Page-1)">Previous</a></li>
+        }
+        else
+        {
+            <li class="page-item disabled"><a class="page-link">Previous</a></li>
+        }
+        @if (ViewBag.HasNext)
+        {
+            <li class="page-item"><a class="page-link" asp-action="Products" asp-route-page="@(Model.Page+1)">Next</a></li>
+        }
+        else
+        {
+            <li class="page-item disabled"><a class="page-link">Next</a></li>
+        }
                 </ul>
 
                 <!--   

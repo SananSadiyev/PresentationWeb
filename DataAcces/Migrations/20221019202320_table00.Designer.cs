@@ -12,17 +12,49 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DataAcces.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220919202745_Web1")]
-    partial class Web1
+    [Migration("20221019202320_table00")]
+    partial class table00
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.8")
+                .HasAnnotation("ProductVersion", "6.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("DataAcces.BseEntities.Cart", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Count")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("UploudDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Carts");
+                });
 
             modelBuilder.Entity("DataAcces.BseEntities.Contact", b =>
                 {
@@ -181,6 +213,25 @@ namespace DataAcces.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserRoles");
+                });
+
+            modelBuilder.Entity("DataAcces.BseEntities.Cart", b =>
+                {
+                    b.HasOne("DataAcces.BseEntities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DataAcces.BseEntities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("DataAcces.BseEntities.Contact", b =>
