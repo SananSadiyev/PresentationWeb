@@ -84,7 +84,8 @@ html, body {
 }
 
 .card {
-    height: 505px;
+
+    height: auto;
     margin-top: auto;
     margin-bottom: auto;
     width: 400px;
@@ -166,9 +167,28 @@ input:focus {
 }
 
 .h-370 {
-    height: 400px;
+    height: auto;
     margin-top: auto;
     margin-bottom: auto;
     width: 400px;
     background-color: rgba(0,0,0,0.5) !important;
+}
+
+.pb-4, .py-4 {
+    padding-bottom: 0rem !important;
+    scroll-padding-top: -30px;
+}
+
+.card-header {
+    padding: 0.55rem 1.25rem;
+    margin-bottom: -20px;
+    background-color: rgba(0,0,0,.03);
+    border-bottom: 0px solid rgba(0,0,0,.125);
+}
+
+.card-body {
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 1.25rem;
+    margin-bottom: -22px;
 }

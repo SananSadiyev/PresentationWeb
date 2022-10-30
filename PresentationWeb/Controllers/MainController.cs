@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
 namespace PresentationWeb.Controllers
 {
@@ -17,6 +18,9 @@ namespace PresentationWeb.Controllers
         {
             return View();
         }
+
+
+      
 
     }
 }

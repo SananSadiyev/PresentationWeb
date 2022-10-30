@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -7,6 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\test\**" />
+    <Content Remove="Views\test\**" />
+    <EmbeddedResource Remove="Views\test\**" />
+    <None Remove="Views\test\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Views\AdminProduct\Add.cshtml" />
+    <None Include="Views\AdminProduct\Update.cshtml" />
     <None Include="wwwroot\img\forestbridge.jpg" />
   </ItemGroup>
 
@@ -22,10 +31,6 @@
   <ItemGroup>
     <ProjectReference Include="..\DataAcces\DataAcces.csproj" />
     <ProjectReference Include="..\Services\Services.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Views\test\" />
   </ItemGroup>
 
 </Project>

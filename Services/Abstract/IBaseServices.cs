@@ -20,6 +20,8 @@ namespace Services.Abstract
         public IEnumerable<TRes> Get(int Page,int PageSize);
 
         public void Delete(int id);
+        public void DeleteFromCart(int ProductId);
+       
 
         public TRes Update(TReq user);
 

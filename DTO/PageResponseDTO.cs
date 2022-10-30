@@ -18,5 +18,11 @@ namespace DTO
             PageSize = pageSize;
             Values = values;
         }
+
+        public PageResponseDTO(int page, int pageSize, object res)
+        {
+            Page = page;
+            PageSize = pageSize;
+        }
     }
 }

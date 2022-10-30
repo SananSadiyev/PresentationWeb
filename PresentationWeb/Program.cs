@@ -27,7 +27,7 @@ namespace PresentationWeb
                     opt.LoginPath = "/SignIn";
                     opt.Cookie.HttpOnly = true;
                     opt.Cookie.Name = "AuthCookie";
-                    opt.Cookie.MaxAge = TimeSpan.FromSeconds(100);
+                    opt.Cookie.MaxAge = TimeSpan.FromMinutes(100);
 
                     //opt.Events = new CookieAuthenticationEvents
                     //{

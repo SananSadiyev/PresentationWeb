@@ -14,6 +14,18 @@ namespace DTO
         public int UserId { get; set; }
         public int Count { get; set; }
         public double Price { get; set; }
-        public double Sum { get=>Price*Count;  }
+
+        public double Sum { get=> Math.Round(Price * Count, 2); }
+
+
+
+
+
+
+
+
+        public string ProductName { get; set; }
+        public double ProductPrice { get; set; }
+        public string ProductImgPath { get; set; }
     }
 }
