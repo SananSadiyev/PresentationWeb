@@ -16,5 +16,16 @@ namespace DTO
         public double Price { get; set; }
 
         public double Sum { get=> Math.Round(Price * Count, 2); }
+
+
+
+
+
+
+
+
+        public string ProductName { get; set; }
+        public double ProductPrice { get; set; }
+        public string ProductImgPath { get; set; }
     }
 }

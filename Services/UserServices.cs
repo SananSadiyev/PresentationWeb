@@ -2,6 +2,7 @@
 using DataAcces;
 using DataAcces.BseEntities;
 using DTO;
+using Helper.Constants;
 using Microsoft.EntityFrameworkCore;
 using Services.Abstract;
 using Services.Helper;
@@ -31,8 +32,9 @@ namespace Services
 
         public UserDTO Login(UserDTO model)
         {
-
-            var res = _db.Users.Where(x => x.Username == model.Username);
+            var res = _db.Users
+                                                  .Where(x => x.Username == model.Username)
+                                                  .Include(u => u.Role);
 
             if (res.Count() == 1)
             {
@@ -58,6 +60,20 @@ namespace Services
 
         public override UserDTO Create(UserDTO model)
         {
+            var res = _db.Users.Where(x => x.Username == model.Username);
+
+            var role = _db.Roles.Where(x => x.Name == RoleKeywords.UserRole)?.First();
+            model.RoleId = role.Id; //just User
+
+            //var role = _db.Roles.Where(x => x.Name == "User")?.First();
+            //model.RoleId = role.Id; //just User
+
+            //model.RoleId = 2;
+
+            if (res.Any())
+                throw new Exception("Username exists!");
+
+
             model.Salt = Crypto.GenerateSalt();
             model.PasswordHash = Crypto.GenerateSHA256Hash(model.Password, model.Salt);
 

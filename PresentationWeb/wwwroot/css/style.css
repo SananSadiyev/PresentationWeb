@@ -362,3 +362,14 @@ body {
 .left {
     float: left;
 }
+
+
+
+.width-100{
+    width:100%;
+}
+
+.navbar-nav .dropdown-menu {
+    position: static;
+    background: navajowhite;
+}

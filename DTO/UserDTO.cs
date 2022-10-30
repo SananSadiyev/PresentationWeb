@@ -15,12 +15,16 @@ namespace DTO
         public string Name { get; set; }
 
         public string Surname { get; set; }
+        [Required]
         public string Username { get; set; }
+        public string RoleName { get; set; }
 
+        public int RoleId { get; set; }
         public string Salt { get; set; }
 
         public string PasswordHash { get; set; }
 
+        [Required]
         public string Password { get; set; }
 
         

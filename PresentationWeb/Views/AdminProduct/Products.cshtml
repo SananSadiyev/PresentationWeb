@@ -9,22 +9,21 @@
         <div class="row justify-content-md-center ">
            <div class="col col-md-auto ">
                 <ul class="list-group list-group-horizontal ">
-                    <li class="list-group-item list-group-item-secondary mx-auto hover-hover"><a asp-action="Products" asp-route-searchName="@ViewBag.Search" asp-route-sortOrder="@ViewBag.Sort"  asp-route-name="true">Name</a></li>
-                    <li class="list-group-item list-group-item-secondary hover-hover"><a asp-action="Products" asp-route-searchName="@ViewBag.Search"   asp-route-sortOrder="@ViewBag.Sort"  asp-route-price="true">Price</a></li>
+                   
+
+                    <li class="list-group-item list-group-item-secondary mx-auto hover-hover"><a asp-controller="AdminProduct" asp-action="Add">Add Product</a></li>
+
+
+
                 </ul>
 
             </div>
-
-
-
             <div class="row justify-content-md-center float-sm-end ">
-        <form method="get">
-            <div class="form-inline form-group ">
-                <label class="control-label">Search: </label>
-                <input name="SearchName" value="@ViewBag.Search" class="form-control width-300"  />
-                <input type="submit" value="Filter" class="btn btn-info"  />
-            </div>
-        </form>
+        
+
+
+
+
           </div>
 
           </div>
@@ -83,8 +82,9 @@
                                                     
                            
                             <div class="card-body">
+                             <a asp-action="Update" asp-route-id=@item.Id class="btn btn-outline-success"></a>
                                 <h4 class="card-title">@item.Name</h4>
-                                <p class="card-text">Fruits</p>
+                                <p class="card-text">Marvel movie</p>
                                 <p class="card-text">Price : $@item.Price</p>
                                 
                                  <form method="post">
@@ -96,7 +96,9 @@
                         <button class="btn btn-primary" type="submit" asp-controller="Product" asp-action="AddCart" >Add to Cart</button>
                       
                     </form>
-
+                    <form method="post">
+                    <a asp-controller="Product" asp-action="Products"  >Delete</a>
+                  </form>
                                 
                               <!--  <a  class="btn btn-primary" asp-controller="Product" asp-action="GetProduct" asp-route-id=item.Id>Add to Cart</a>  -->
 

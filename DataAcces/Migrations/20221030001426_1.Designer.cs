@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DataAcces.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20221019202320_table00")]
-    partial class table00
+    [Migration("20221030001426_1")]
+    partial class _1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -38,11 +38,17 @@ namespace DataAcces.Migrations
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<int>("CreateUserId")
+                        .HasColumnType("integer");
+
                     b.Property<int>("ProductId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("UploudDate")
+                    b.Property<DateTime?>("UpdateDate")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<int?>("UpdateUserId")
+                        .HasColumnType("integer");
 
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
@@ -70,6 +76,9 @@ namespace DataAcces.Migrations
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<int>("CreateUserId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Email")
                         .HasColumnType("text");
 
@@ -77,8 +86,11 @@ namespace DataAcces.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("UploudDate")
+                    b.Property<DateTime?>("UpdateDate")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<int?>("UpdateUserId")
+                        .HasColumnType("integer");
 
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
@@ -102,6 +114,9 @@ namespace DataAcces.Migrations
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<int>("CreateUserId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("ImgPath")
                         .HasColumnType("text");
 
@@ -117,8 +132,11 @@ namespace DataAcces.Migrations
                     b.Property<double>("Rating")
                         .HasColumnType("double precision");
 
-                    b.Property<DateTime>("UploudDate")
+                    b.Property<DateTime?>("UpdateDate")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<int?>("UpdateUserId")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -136,20 +154,37 @@ namespace DataAcces.Migrations
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<int>("CreateUserId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("UploudDate")
+                    b.Property<DateTime?>("UpdateDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int?>("UpdateUserId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Name = "Admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Name = "User"
+                        });
                 });
 
             modelBuilder.Entity("DataAcces.BseEntities.User", b =>
@@ -163,11 +198,17 @@ namespace DataAcces.Migrations
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<int>("CreateUserId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("text");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Salt")
                         .HasColumnType("text");
@@ -175,15 +216,34 @@ namespace DataAcces.Migrations
                     b.Property<string>("Surname")
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("UploudDate")
+                    b.Property<DateTime?>("UpdateDate")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<int?>("UpdateUserId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Username")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("RoleId");
+
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Name = "admin",
+                            PasswordHash = "�[ـ��{P���3 U�TZ���%f���AE",
+                            RoleId = 1,
+                            Salt = "oC659g1XV5WkgQ==",
+                            Surname = "admin",
+                            Username = "admin"
+                        });
                 });
 
             modelBuilder.Entity("DataAcces.BseEntities.UserRole", b =>
@@ -197,11 +257,17 @@ namespace DataAcces.Migrations
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<int>("CreateUserId")
+                        .HasColumnType("integer");
+
                     b.Property<int>("RoleId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("UploudDate")
+                    b.Property<DateTime?>("UpdateDate")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<int?>("UpdateUserId")
+                        .HasColumnType("integer");
 
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
@@ -218,13 +284,13 @@ namespace DataAcces.Migrations
             modelBuilder.Entity("DataAcces.BseEntities.Cart", b =>
                 {
                     b.HasOne("DataAcces.BseEntities.Product", "Product")
-                        .WithMany()
+                        .WithMany("Cart")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DataAcces.BseEntities.User", "User")
-                        .WithMany()
+                        .WithMany("Cart")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -245,11 +311,15 @@ namespace DataAcces.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("DataAcces.BseEntities.Role", b =>
+            modelBuilder.Entity("DataAcces.BseEntities.User", b =>
                 {
-                    b.HasOne("DataAcces.BseEntities.User", null)
-                        .WithMany("Role")
-                        .HasForeignKey("UserId");
+                    b.HasOne("DataAcces.BseEntities.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("DataAcces.BseEntities.UserRole", b =>
@@ -271,6 +341,11 @@ namespace DataAcces.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("DataAcces.BseEntities.Product", b =>
+                {
+                    b.Navigation("Cart");
+                });
+
             modelBuilder.Entity("DataAcces.BseEntities.Role", b =>
                 {
                     b.Navigation("UserRole");
@@ -278,9 +353,9 @@ namespace DataAcces.Migrations
 
             modelBuilder.Entity("DataAcces.BseEntities.User", b =>
                 {
-                    b.Navigation("Contacts");
+                    b.Navigation("Cart");
 
-                    b.Navigation("Role");
+                    b.Navigation("Contacts");
                 });
 #pragma warning restore 612, 618
         }

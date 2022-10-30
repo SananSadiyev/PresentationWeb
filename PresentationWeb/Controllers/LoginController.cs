@@ -64,6 +64,7 @@ namespace PresentationWeb.Controllers
                 new Claim("Username",user.Username),
                 new Claim(ClaimTypes.Name,user.Name),
                 new Claim(ClaimTypes.Surname,user.Surname),
+                new Claim(ClaimTypes.Role, user.RoleName),
 
             };
 

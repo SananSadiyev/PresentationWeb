@@ -76,5 +76,16 @@ namespace Services
             var res = _mapper.Map<TEntities, TRes>(ent);
             return res;
         }
+
+
+        public void DeleteFromCart(int ProductId)
+        {
+            var ent = _db.Carts.Find(ProductId);
+
+            _db.Carts.Remove(ent);
+
+            _db.SaveChanges();
+        }
+
     }
 }

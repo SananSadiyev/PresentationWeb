@@ -88,7 +88,7 @@ namespace PresentationWeb.Controllers
 
         [HttpGet]
         [Route("Products")]
-        public IActionResult Products(SortOrder sortOrder, int page = 1, int pageSize = 8, string searchName = null)
+        public IActionResult Products(SortOrder sortOrder = SortOrder.NameAsc, int page = 1, int pageSize = 8, string searchName = null,bool price=false, bool name = false)
         {
 
             #region initial data
@@ -184,26 +184,37 @@ namespace PresentationWeb.Controllers
             //    Price = 0.35,
             //    ImgPath = "~/img2/Banana.jpg",
 
+
             //}); ;
 
             #endregion
 
 
 
-            IEnumerable<ProductDTO> prods;
+            var prods = _productService.Get();
 
-            if (searchName != null)
+            if (!string.IsNullOrEmpty(searchName))
             {
-                prods = _productService.Get()
-                    .Where(p => p.Name.ToLower().Contains(searchName.ToLower()));
+                ViewBag.Search = searchName;
+
+                prods =prods.Where(p => p.Name.ToLower().Contains(searchName.ToLower()));
+            }
+
+          
+            if (name) 
+            {
+                ViewBag.Sort = sortOrder == SortOrder.NameAsc ? SortOrder.NameDesc : SortOrder.NameAsc ;
+            }
+            else if(price)
+            {
+                ViewBag.Sort = sortOrder == SortOrder.PriceAsc ? SortOrder.PriceDesc : SortOrder.PriceAsc;
+
             }
             else
             {
-                prods = _productService.Get();
+                ViewBag.Sort = sortOrder;
             }
 
-            ViewBag.NameSort = sortOrder == SortOrder.NameAsc ? SortOrder.NameDesc : SortOrder.NameAsc;
-            ViewBag.PriceSort = sortOrder == SortOrder.PriceAsc ? SortOrder.PriceDesc : SortOrder.PriceAsc;
 
             prods = sortOrder switch
             {
@@ -239,21 +250,37 @@ namespace PresentationWeb.Controllers
 
             //var products = _productService.Get(page, pageSize);
 
-            if (products.Count() == 0)
-            {
-                return NotFound();
-            }
+
             var pagedRs = new PageResponseDTO<ProductDTO>(page, pageSize, products);
 
             return View(pagedRs);
         }
 
         [HttpGet]
-        [Route("GetProduct/{id}")]
-        public IActionResult GetProduct(int id)
+        [Route("GetProduct/Get/{id}")]
+        public IActionResult GetProduct(int id, string message = null, bool isSuccess = true)
         {
+
+            if (!string.IsNullOrEmpty(message))
+            {
+                if (isSuccess) 
+                    ViewBag.Success = message;
+                else  
+                    ViewBag.Error = message;
+            }
+
+                var res = _productService.Get(id);
+
+                if (res == null)
+                {
+                    ViewBag.Error = "Not Found!";
+                    return View();
+                }
+               
+               
+            
             var prod = _productService.Get(id);
-            return View(prod);
+                    return View(prod);
         }
 
 
@@ -262,32 +289,89 @@ namespace PresentationWeb.Controllers
         [Route("AddCart")]
         public IActionResult AddCart(CartDTO dto)
         {
-            dto.UserId = Convert.ToInt32(HttpContext.User.FindFirst("Id").Value);
+            bool isSuccess;
+            string mes;
 
             try
             {
+
+                dto.UserId = Convert.ToInt32(HttpContext.User.FindFirst("Id").Value);
                 var dtos = _CartService.Create(dto);
-                ViewBag.Success = "Add To Cart";
+                mes = "Succesfuly added!";
+                isSuccess = true;
 
             }
-            catch (Exception a)
+            catch (Exception ex)
             {
-                ViewBag.Error = a.Message;
-                return RedirectToAction("GetProduct", new { id = dto.ProductId });
+                mes = ex.Message;
+                isSuccess = false;
+
+                return RedirectToAction("Products", new
+            {
+                id = dto.ProductId,
+                message = mes,
+                isSuccess = isSuccess
+            });
             }
-            return RedirectToAction("GetProduct", new { id = dto.ProductId });
+
+            return RedirectToAction("Products", new
+            {
+                id = dto.ProductId,
+                message = mes,
+                isSuccess = isSuccess
+            });
         }
 
 
 
         [HttpGet]
         [Route("GetCart")]
-        public IActionResult GetCart()
+        public IActionResult GetCart(string message = null, bool isSuccess = true)
         {
-            var uid = Convert.ToInt32(HttpContext.User.FindFirst("Id").Value);
+            if (!string.IsNullOrEmpty(message))
+            {
+                if (isSuccess)
+                    ViewBag.Success = message;
+                else
+                    ViewBag.Error = message;
+            }
+                var uid = Convert.ToInt32(HttpContext.User.FindFirst("Id").Value);
             var dtos = _CartService.GetByUserId(uid);
             return View(dtos);
         }
+
+
+
+
+
+
+
+
+        [HttpPost]
+        public IActionResult Buy(PayDTO dto)
+        {
+            _productService.Buy(dto.CartId);
+
+            return RedirectToAction("GetCart",
+                new
+                {
+                    message = "Success! You paid " + dto.Sum + "$!",
+                    isSuccess = true
+                });
+        }
+
+        [HttpPost]
+        public IActionResult Delete(PayDTO dto)
+        {
+            _productService.Delete(dto.CartId);
+
+            return RedirectToAction("GetCart",
+                new
+                {
+                    
+                });
+        }
+
 
     }
 }
